@@ -1,0 +1,3 @@
+#/bin/bash
+
+bash /etc/ivandx/ivandx.sh
