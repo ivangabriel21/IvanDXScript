@@ -96,7 +96,7 @@ function opcion_invalida() {
 
 obtener_version_desde_github() {
     # URL de GitHub
-    local url="https://raw.githubusercontent.com/ivangabriel21/IvanDXScript/main/info"
+    local url="https://raw.githubusercontent.com/ivangabriel21/IvanDXScript/main/info/info"
 
     # Utiliza curl para obtener el contenido del archivo
     local contenido=$(curl -s "$url")
