@@ -90,7 +90,7 @@ function descargar_repositorio() {
   sudo mkdir /etc/ivandx   # Crea la carpeta /etc/ivandx
   sudo chown $USER /etc/ivandx   # Cambia el propietario a tu usuario
 
-  git clone https://github.com/ivangabriel21/IvanDXScript.git /etc/ivandx
+  git clone https://github.com/ivangabriel21/IvanDXScript.git /etc/ivandx >/dev/null 2>&1
 
   if [ $? -eq 0 ]; then
     echo "Repositorio descargado exitosamente en /etc/ivandx"
@@ -127,3 +127,17 @@ echo -e "${VERDE}•••••••••••••••••••••
 echo -e "${VERDE}INSTALANDO LA SCRIPT IVANDX DESDE GITHUB ✔️"
 echo ""
 descargar_repositorio
+echo "cd /etc/ivandx && ./menu" >/bin/menu
+echo "cd /etc/ivandx && ./menu" >/bin/ivan
+echo "cd /etc/ivandx && ./menu" >/bin/ivandx
+chmod +x /bin/menu
+chmod +x /bin/ivandx
+chmod +x /bin/ivan
+clear && clear
+echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+echo -e "${AMARILLO}⭐INSTALADOR DE LA SCRIPT IVANDX⭐${RESTAURAR}"
+echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+echo -e "${VERDE} INSTALANDO EL NOMBRE ACSII PARA LA SCRIPT"
+echo ""
+python3 /etc/ivandx/ascii.py
+mv /etc/ivandx/motd /etc/motd

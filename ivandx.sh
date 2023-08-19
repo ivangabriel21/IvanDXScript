@@ -74,7 +74,8 @@ function borrar_script() {
     fi
 }
 
-function opcion_invalida() { echo "Opción inválida, por favor selecciona una opción válida."
+function opcion_invalida() { 
+  echo "Opción inválida, por favor selecciona una opción válida."
 }
 
 while true; do 
@@ -95,9 +96,8 @@ read -p "Escoge una opción: " opcion
         3) borrar_script ;;
 	4) ejecutar_iniciar ;;
         5) protocolos ;;
-        6) echo "Saliendo de la Script" ; exit ;;
-        7) bash /etc/ivandx/ivandx.sh ;;
-        0) echo "Saliendo de la Script" ; exit ;;
+        6) echo "Saliendo de la Script" ; break ;;
+        0) echo "Saliendo de la Script" ; break ;;
         *) opcion_invalida ;;
 
     esac

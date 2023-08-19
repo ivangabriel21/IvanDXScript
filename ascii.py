@@ -16,8 +16,7 @@ COLORES = {
 RESTAURAR = "\033[0m"
 
 # Pide al usuario que ingrese el nombre y el texto
-nombre = input("Ingresa un nombre para el archivo: ")
-texto = input("Ingresa el texto para generar arte ASCII: ")
+texto = input(f'{COLORES["verde"]}Ingresa el texto para generar arte ASCII:{RESTAURAR} ')
 
 # Pide al usuario que elija un color
 print("Elige un color para el texto:")
@@ -38,8 +37,8 @@ if color_elegido in COLORES:
 
     # Elimina el contenido actual del archivo calls y escribe el arte ASCII con el color variable
     with open(archivo_calls, "w") as archivo:
-        archivo.write(f'{color_variable}\n{ascii_art}\n')
+        archivo.write(f'{ascii_art}\n')
 
-    print(f"Arte ASCII guardado en {archivo_calls} con el color {color_elegido}")
+    print(f"Arte guardado Con el color {color_elegido}")
 else:
     print("Color no válido. Saliendo del programa.")
