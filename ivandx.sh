@@ -114,6 +114,17 @@ obtener_version_desde_github() {
     fi
 }
 
+actualizar_script() {
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    echo -e "${AMARILLO}⭐ACTUALIZADOR DE LA SCRIPT IVANDX⭐${RESTAURAR}"
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    rm -rf /etc/ivandx
+    apt update
+    wget https://raw.githubusercontent.com/ivangabriel21/IvanDXScript/main/install
+    chmod 777 install
+    ./install --IvanDX
+}
+
 nodis_version() {
   echo ""
   echo -e "${AMARILLO}No Hay Version Disponible En Este momento"
@@ -155,17 +166,6 @@ mostrar_menu() {
 
       esac
      done
-}
-
-actualizar_script() {
-    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
-    echo -e "${AMARILLO}⭐ACTUALIZADOR DE LA SCRIPT IVANDX⭐${RESTAURAR}"
-    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
-    rm -rf /etc/ivandx
-    apt update
-    wget https://raw.githubusercontent.com/ivangabriel21/IvanDXScript/main/install
-    chmod 777 install
-    ./install --IvanDX
 }
 
 mostrar_menu
