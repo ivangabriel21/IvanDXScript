@@ -119,6 +119,7 @@ mostrar_menu() {
       echo -e "${GRIS}[4]${RESTAURAR} ▶ ${FONDO_VERDE}EJECUTAR LA SCRIPT AL ENTRAR${RESTAURAR}"
       echo -e "${GRIS}[5]${RESTAURAR} ▶ ${AMARILLO}PROTOCOLOS"
       echo -e "${GRIS}[6]${RESTAURAR} ▶ ${FONDO_AMARILLO}Actualizar Script${RESTAURAR}"
+      echo -e "${GRIS}[0]${RESTAURAR} ▶ ${FONDO_ROJO}Salir${RESTAURAR}"
       echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 
       echo -e "${AMARILLO_CLARO}Escoge una opción: \c"
@@ -134,8 +135,7 @@ mostrar_menu() {
           3) borrar_script ;;
           4) ejecutar_iniciar ;;
           5) protocolos ;;
-          6) echo "Saliendo de la Script" ; exit ;;
-          7) if obtener_version_desde_github; then actualizar_script; else nodis_version; fi ;;
+          6) if obtener_version_desde_github; then actualizar_script; else nodis_version; fi ;;
           0) echo "Saliendo de la Script" ; salir=true ;;
           *) opcion_invalida ;;
 
@@ -144,10 +144,14 @@ mostrar_menu() {
 }
 
 actualizar_script() {
-    echo "Realizando la actualización..."
-    # Aquí puedes agregar el código para actualizar tu script desde GitHub.
-    # Esto podría incluir la descarga del nuevo script y la sobrescritura del script actual.
-    echo "Script actualizado con éxito."
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    echo -e "${AMARILLO}⭐ACTUALIZADOR DE LA SCRIPT IVANDX⭐${RESTAURAR}"
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    rm -rf /etc/ivandx
+    apt update
+    wget https://raw.githubusercontent.com/ivangabriel21/IvanDXScript/main/install
+    chmod 777 install
+    ./install --IvanDX
 }
 
 mostrar_menu

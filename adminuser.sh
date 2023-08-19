@@ -114,8 +114,8 @@ while true; do
       3) read_create ;;
       4) read_connect ;;
       5) banner_vps ;;
-      6) return ;;
-      0) return ;;
+      6) menu ;;
+      0) menu ;;
       *) opcion_invalida ;;
 
   esac
