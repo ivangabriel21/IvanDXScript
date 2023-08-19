@@ -83,7 +83,10 @@ function borrar_script() {
         $(rm -rf /bin/ivan)
         exit
     else
+        clear && clear
         echo "Operación cancelada."
+        sleep 1
+        ivandx
     fi
 }
 

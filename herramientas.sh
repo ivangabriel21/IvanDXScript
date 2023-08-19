@@ -93,6 +93,19 @@ fix_root() {
         # Utiliza service si systemctl no está disponible
         sudo service ssh restart
     fi
+   echo "ROOT FIXEADO CORRECTAMENTE"
+   echo -e "Deseas ponerle una Contraseña Al Root ? (y/n) \c"
+   read passroot
+   if [ "$passroot" = "y" ]; then
+     sudo passwd root
+     echo "Contraseña Cambiada, Regresando A La Script ..."
+     sleep 1
+     menu
+   else
+     echo "Regresando A La Script"
+     sleep 1
+     menu
+   fi
 }
 
 clear && clear
