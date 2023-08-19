@@ -38,6 +38,7 @@ verif_ptrs() {
     done
  }
 
+
 clear && clear 
 ifconfig=$(curl -s ifconfig.me) 
 so=$(uname -s) fecha=$(date "+%d-%m-%Y %H:%M:%S") puertos_en_uso=$(ss -tuln | awk 'NR>1 {print $5}' | cut -d ':' -f2)
@@ -53,7 +54,7 @@ echo -e "${ROJO}▶ IP:${RESTAURAR}${AZUL} $ifconfig${RESTAURAR} S.O: $so FECHA:
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
 verif_ptrs
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
-echo -e "${AMARILLO}⭐${RESTAURAR} IVANDX ${AMARILLO}⭐ ${RESTAURAR}ESTAS EN LA VERSION : "VERSION"" 
+echo -e "${AMARILLO}⭐${RESTAURAR} IVANDX ${AMARILLO}⭐ ${RESTAURAR}ESTAS EN LA VERSION : 1.0 " 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
 echo -e "▶ TOTAL: $total_ram ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada_ram" 
 echo -e "▶ Uso RAM: ${uso_ram}% ▶ Uso CPU: ${uso_cpu}% Cache: ${cache_usada}M" 
@@ -78,6 +79,35 @@ function opcion_invalida() {
   echo "Opción inválida, por favor selecciona una opción válida."
 }
 
+obtener_version_desde_github() {
+    # URL de GitHub
+    local url="https://raw.githubusercontent.com/ivangabriel21/IvanDXScript/main/info"
+
+    # Utiliza curl para obtener el contenido del archivo
+    local contenido=$(curl -s "$url")
+
+    # Busca la línea que contiene "version:" y extrae la versión
+    local version_github=$(echo "$contenido" | grep -o "version:[[:space:]]*[0-9.]*" | cut -d ':' -f 2 | tr -d '[:space:]')
+
+    # Compara la versión con la versión almacenada localmente
+    local version_local=$(cat /etc/ivandx/info/version)
+
+    if [ -n "$version_github" ] && [ "$version_github" != "$version_local" ] && [ "$(echo "$version_github > $version_local" | bc -l)" -eq 1 ]; then
+        return 0 # La versión en GitHub es mayor que la versión local
+    else
+        return 1 # La versión en GitHub no es mayor que la versión local
+    fi
+}
+
+nodis_version() {
+  echo ""
+  echo -e "${AMARILLO}No Hay Version Disponible En Este momento"
+  echo -e "Presiona Enter Para Regresar al Script${RESTAURAR} \c"
+  read enter
+  menu
+}
+
+mostrar_menu() {
 while true; do 
     echo -e "${GRIS}[1]${RESTAURAR} ▶${AZUL} ADMINISTRAR USUARIOS${RESTAURAR}"
     echo -e "${GRIS}[2]${RESTAURAR} ▶${AMARILLO} HERRAMIENTAS${RESTAURAR}"
@@ -88,17 +118,33 @@ while true; do
     echo -e "${GRIS}[7]${RESTAURAR} ▶ Actualizar Script"
     echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 
+    if obtener_version_desde_github; then
+       echo -e "${GRIS}[7]${RESTAURAR} ▶${VERDE} ACTUALIZAR SCRIPT${RESTAURAR}"
+    fi
+
 read -p "Escoge una opción: " opcion
 
     case $opcion in
         1) administrar_usuarios ;;
         2) herramientas ;; 
         3) borrar_script ;;
-	4) ejecutar_iniciar ;;
+        4) ejecutar_iniciar ;;
         5) protocolos ;;
         6) echo "Saliendo de la Script" ; break ;;
+        7) if obtener_version_desde_github; then actualizar_script; else nodis_version; fi ;;
         0) echo "Saliendo de la Script" ; break ;;
         *) opcion_invalida ;;
 
     esac
 done
+
+}
+
+actualizar_script() {
+    echo "Realizando la actualización..."
+    # Aquí puedes agregar el código para actualizar tu script desde GitHub.
+    # Esto podría incluir la descarga del nuevo script y la sobrescritura del script actual.
+    echo "Script actualizado con éxito."
+}
+
+mostrar_menu
