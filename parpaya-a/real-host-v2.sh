@@ -38,7 +38,7 @@ do
         echo ""
         echo -n "HOST: "
         read HOST
-        bash /etc/ivandx/Irparpaya-a/.scan.sh $HOST
+        bash /etc/ivandx/parpaya-a/.scan.sh $HOST
         echo ""
         echo -e "\e[0m"
         echo -e "\e[1;31mPresiona Enter para continuar con el script...!\e[0m"
@@ -48,7 +48,7 @@ do
         echo ""
         echo "Mostrando el estado de los sitios web..."
         echo ""
-        bash /etc/ivandx/Irparpaya-a/.status.sh
+        bash /etc/ivandx/parpaya-a/.status.sh
         echo ""
         echo -e "\e[1;31mPresiona Enter para continuar con el script...\e[0m"
         read foo
@@ -62,7 +62,7 @@ do
         ;;
     4)
         clear
-        bash /etc/ivandx/Irparpaya-a/.payloads.ingles
+        bash /etc/ivandx/parpaya-a/.payloads.ingles
         read foo
         ;;
     5)
@@ -95,7 +95,7 @@ do
         clear
         echo -e "\e[1;32mIngresando al menú secreto..."
         sleep 2
-        bash /etc/ivandx/Irparpaya-a/._
+        bash /etc/ivandx/parpaya-a/._
         read foo
         ;;
     8)
@@ -120,13 +120,13 @@ do
         clear
         echo "Traduciendo al idioma inglés..."
         sleep 3
-        bash /etc/ivandx/Irparpaya-a/real-host-v2.sh
+        bash /etc/ivandx/parpaya-a/real-host-v2.sh
         ;;
     99)
         clear
         echo "Traduciendo al idioma español..."
         sleep 3
-        bash /etc/ivandx/Irparpaya-a/.real-host.sh
+        bash /etc/ivandx/parpaya-a/.real-host.sh
         ;;
     0)
         clear
