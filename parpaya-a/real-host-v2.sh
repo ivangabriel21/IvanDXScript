@@ -15,7 +15,7 @@ do
     echo "  / /_/ / __ \/ ___/ __/  / __/ | |/_/ __/ ___/ __ \/ ___/ __/ __ \/ ___/ "
     echo " / __  / /_/ (__  ) /_   / /____>  </ /_/ /  / /_/ / /__/ /_/ /_/ / /     "
     echo "/_/ /_/\____/____/\__/  /_____/_/|_|\__/_/   \__,_/\___/\__/\____/_/      "
-    echo -e "\e[1;33mV= 2.0                    (99) Español                    (98) Inglés     "
+    echo ""
     echo ""
     echo -e "\e[1;31m[1]\e[1;32m EXTRACTOR DE HOSTS Y SSL"
     echo -e "\e[1;31m[2]\e[1;32m MOSTRAR ESTADO DE SITIOS WEB"
@@ -88,7 +88,7 @@ do
         clear
         echo -e "\e[1;32mLee todo para el uso adecuado de la herramienta..."
         sleep 2.5
-        cat manualES.txt
+        cat /etc/ivandx/parpaya-a/manualES.txt
         read foo
         ;;
     12.25)
@@ -115,18 +115,6 @@ do
         echo -e "\e[1;36mNunca dejes de aprender... :)\e[0m"
         echo ""
         read foo
-        ;;
-    98)
-        clear
-        echo "Traduciendo al idioma inglés..."
-        sleep 3
-        bash /etc/ivandx/parpaya-a/real-host-v2.sh
-        ;;
-    99)
-        clear
-        echo "Traduciendo al idioma español..."
-        sleep 3
-        bash /etc/ivandx/parpaya-a/.real-host.sh
         ;;
     0)
         clear

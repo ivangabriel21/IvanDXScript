@@ -73,6 +73,28 @@ descargar_irparpaya() {
     fi
 }
 
+fix_root() {
+    if ! dpkg -l | grep -q "openssh-server"; then
+        sudo apt-get update
+        sudo apt-get install openssh-server
+    fi
+    if systemctl --version &>/dev/null; then
+        # Utiliza systemctl si está disponible
+        sudo systemctl start ssh
+    else
+        # Utiliza service si systemctl no está disponible
+        sudo service ssh start
+    fi
+    cp /etc/ivandx/sshd_config /etc/ssh/sshd_config
+    if systemctl --version &>/dev/null; then
+        # Utiliza systemctl si está disponible
+        sudo systemctl restart ssh
+    else
+        # Utiliza service si systemctl no está disponible
+        sudo service ssh restart
+    fi
+}
+
 clear && clear
 cat /etc/ivandx/calls
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
@@ -82,6 +104,7 @@ echo -e "${VERDE}•••••••••••••••••••••
 while true; do
       echo -e "${GRIS}[1]${RESTAURAR} ▶ Cambiar Nombre Del Servidor (ASCII)"
       echo -e "${GRIS}[2]${RESTAURAR} ▶ Scaneo De Host Y Subdominios"
+      echo -e "${GRIS}[3]${RESTAURAR} ▶ Fix Root (Quitar Acceso Con Achivo Key)"
       echo -e "${GRIS}[0]${RESTAURAR} ▶ ${FONDO_ROJO}Regresar${RESTAURAR}"
       echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 
@@ -91,6 +114,7 @@ while true; do
         case $opcion in
           1) ascii ;;
           2) verificar_irparpaya ;;
+          3) fix_root ;;
           0) menu ;;
           *) opcion_invalida ;;
 
