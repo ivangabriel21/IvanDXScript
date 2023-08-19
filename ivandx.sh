@@ -61,16 +61,26 @@ echo -e "\e[33m▶ TOTAL: $total_ramM ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada
 echo -e "▶ Uso RAM: ${uso_ram}% ▶ Uso CPU: ${uso_cpu}% Cache: ${cache_usada}M" 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
 
+# Aqui estan las Redirecciones Bash del menu
 function administrar_usuarios() {
     echo "Ejecutando el script de administración de usuarios..."
     source /etc/ivandx/adminuser.sh
 }
 
+function herramientas() {
+    echo "Ejecutando el script de administración de usuarios..."
+    source /etc/ivandx/herramientas.sh
+}
+
+# Esta es la funcion de borrar el Script
 function borrar_script() {
     read -p "¿Estás seguro de remover el script? (y/n): " confirmacion
     if [ "$confirmacion" = "y" ]; then
         echo "Removiendo el script..."
         $(rm -rf /etc/ivandx/)
+        $(rm -rf /bin/menu)
+        $(rm -rf /bin/ivandx)
+        $(rm -rf /bin/ivan)
         exit
     else
         echo "Operación cancelada."
@@ -131,12 +141,13 @@ mostrar_menu() {
 
         case $opcion in
           1) administrar_usuarios ;;
-          2) herramientas ;; 
+          2) herramientas ;;
           3) borrar_script ;;
           4) ejecutar_iniciar ;;
           5) protocolos ;;
           6) if obtener_version_desde_github; then actualizar_script; else nodis_version; fi ;;
-          0) echo "Saliendo de la Script" ; salir=true ;;
+          0)clear
+          exit 0;;
           *) opcion_invalida ;;
 
       esac
