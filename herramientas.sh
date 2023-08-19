@@ -34,11 +34,11 @@ ascii() {
 }
 
 verificar_irparpaya() {
-    if [ -d "/etc/ivandx/Irparpaya-a" ]; then
-        echo "Irparpaya está instalado en /etc/ivandx."
+    if [ -d "/etc/ivandx/parpaya-a" ]; then
+        echo "Irparpaya está instalado."
         ejecutar_script_irparpaya
     else
-        echo "Irparpaya no está instalado en /etc/ivandx."
+        echo "Irparpaya no está instalado."
         read -p "¿Deseas descargar Irparpaya ahora? (y/n): " respuesta
         if [ "$respuesta" = "y" ]; then
             descargar_irparpaya
@@ -51,7 +51,7 @@ verificar_irparpaya() {
 ejecutar_script_irparpaya() {
     clear && clear
     echo "Ejecutando Irparpaya..."
-    bash /etc/ivandx/Irparpaya-a/real-host-v2.sh
+    bash /etc/ivandx/parpaya-a/real-host-v2.sh
 }
 
 descargar_irparpaya() {
@@ -62,7 +62,7 @@ descargar_irparpaya() {
     apt install curl
     apt install git
     git clone https://github.com/HackeRStrategy/Irparpaya-a.git /etc/ivandx/Irparpaya-a
-    chmod +x /etc/ivandx/Irparpaya-a/real-host-v2.sh
+    chmod +x /etc/ivandx/parpaya-a/real-host-v2.sh
     if [ $? -eq 0 ]; then
         echo "Irparpaya se ha descargado con éxito en /etc/ivandx."
         echo -e "PRESIONA ENTER PARA CONTINUAR \c"
