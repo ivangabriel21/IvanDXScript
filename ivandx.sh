@@ -5,6 +5,7 @@ NEGRO="\e[30m"
 ROJO="\e[31m"
 VERDE="\e[32m"
 AMARILLO="\e[33m"
+AMARILLO_CLARO="\e[93m"
 AZUL="\e[34m"
 MAGENTA="\e[35m"
 CYAN="\e[36m"
@@ -34,14 +35,14 @@ verif_ptrs() {
     PT=$(lsof -V -i tcp -P -n | grep -v "ESTABLISHED" | grep -v "COMMAND" | grep "LISTEN")
     for pton in $(echo -e "$PT" | cut -d: -f2 | cut -d' ' -f1 | uniq); do
         svcs=$(echo -e "$PT" | grep -w "$pton" | awk '{print $1}' | uniq)
-        echo -e "\033[1;37m$svcs\033[0m: \033[1;33m$pton"
+        echo -e "${CYAN}$svcs${RESTAURAR}: ${AMARILLO}$pton${RESTAURAR}"
     done
  }
 
 
 clear && clear 
 ifconfig=$(curl -s ifconfig.me) 
-so=$(uname -s) fecha=$(date "+%d-%m-%Y %H:%M:%S") puertos_en_uso=$(ss -tuln | awk 'NR>1 {print $5}' | cut -d ':' -f2)
+so=$(uname -s) fecha=$(date "+%d-%m-%Y %H:%M:%S") 
 total_ram=$(free -m | grep -i "mem:" | awk '{print $2}') 
 libre_ram=$(free -m | grep -i "mem:" | awk '{print $7}')
 usada_ram=$(free -m | grep -i "mem:" | awk '{print $3}') 
@@ -50,18 +51,19 @@ uso_cpu=$(top -bn1 | grep "Cpu(s)" | awk '{print 100-$8}')
 cache_usada=$(free -m | grep -i "mem:" | awk '{print $6}')
 cat /etc/ivandx/calls
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
-echo -e "${ROJO}▶ IP:${RESTAURAR}${AZUL} $ifconfig${RESTAURAR} S.O: $so FECHA: $fecha" 
+echo -e "${AZUL}▶ IP:${RESTAURAR}${CYAN} $ifconfig${RESTAURAR} ${AMARILLO}S.O: $so FECHA: $fecha${RESTAURAR}" 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
 verif_ptrs
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
-echo -e "${AMARILLO}⭐${RESTAURAR} IVANDX ${AMARILLO}⭐ ${RESTAURAR}ESTAS EN LA VERSION : 1.0 " 
+echo -e "${AMARILLO}⭐IVANDX${RESTAURAR}${AMARILLO}⭐ ${RESTAURAR}${VERDE}ESTAS EN LA VERSION :${RESTAURAR} 1.0 " 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
-echo -e "▶ TOTAL: $total_ram ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada_ram" 
+echo -e "\e[33m▶ TOTAL: $total_ramM ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada_ram" 
 echo -e "▶ Uso RAM: ${uso_ram}% ▶ Uso CPU: ${uso_cpu}% Cache: ${cache_usada}M" 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
+
 function administrar_usuarios() {
     echo "Ejecutando el script de administración de usuarios..."
-    bash /etc/ivandx/adminuser.sh
+    source /etc/ivandx/adminuser.sh
 }
 
 function borrar_script() {
@@ -108,36 +110,37 @@ nodis_version() {
 }
 
 mostrar_menu() {
-while true; do 
-    echo -e "${GRIS}[1]${RESTAURAR} ▶${AZUL} ADMINISTRAR USUARIOS${RESTAURAR}"
-    echo -e "${GRIS}[2]${RESTAURAR} ▶${AMARILLO} HERRAMIENTAS${RESTAURAR}"
-    echo -e "${GRIS}[3]${RESTAURAR} ▶${ROJO} [!] REMOVE SCRIPT IVANDX${RESTAURAR}"
-    echo -e "${GRIS}[4]${RESTAURAR} ▶ EJECUTAR LA SCRIPT AL ENTRAR"
-    echo -e "${GRIS}[5]${RESTAURAR} ▶ INSTALAR PUERTOS"
-    echo -e "${GRIS}[6]${RESTAURAR} ▶ SALIR DE LA SCRIPT"
-    echo -e "${GRIS}[7]${RESTAURAR} ▶ Actualizar Script"
-    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+   local salir=false
 
-    if obtener_version_desde_github; then
-       echo -e "${GRIS}[7]${RESTAURAR} ▶${VERDE} ACTUALIZAR SCRIPT${RESTAURAR}"
-    fi
+   while ! $salir; do 
+      echo -e "${GRIS}[1]${RESTAURAR} ▶${AZUL} ADMINISTRAR USUARIOS${RESTAURAR}"
+      echo -e "${GRIS}[2]${RESTAURAR} ▶${AMARILLO} HERRAMIENTAS${RESTAURAR}"
+      echo -e "${GRIS}[3]${RESTAURAR} ▶${ROJO} [!] REMOVE SCRIPT IVANDX${RESTAURAR}"
+      echo -e "${GRIS}[4]${RESTAURAR} ▶ ${FONDO_VERDE}EJECUTAR LA SCRIPT AL ENTRAR${RESTAURAR}"
+      echo -e "${GRIS}[5]${RESTAURAR} ▶ ${AMARILLO}PROTOCOLOS"
+      echo -e "${GRIS}[6]${RESTAURAR} ▶ ${FONDO_AMARILLO}Actualizar Script${RESTAURAR}"
+      echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 
-read -p "Escoge una opción: " opcion
+      echo -e "${AMARILLO_CLARO}Escoge una opción: \c"
+      read opcion
 
-    case $opcion in
-        1) administrar_usuarios ;;
-        2) herramientas ;; 
-        3) borrar_script ;;
-        4) ejecutar_iniciar ;;
-        5) protocolos ;;
-        6) echo "Saliendo de la Script" ; break ;;
-        7) if obtener_version_desde_github; then actualizar_script; else nodis_version; fi ;;
-        0) echo "Saliendo de la Script" ; break ;;
-        *) opcion_invalida ;;
+      if obtener_version_desde_github; then
+         echo -e "${GRIS}[7]${RESTAURAR} ▶${VERDE} ACTUALIZAR SCRIPT${RESTAURAR}"
+      fi
 
-    esac
-done
+        case $opcion in
+          1) administrar_usuarios ;;
+          2) herramientas ;; 
+          3) borrar_script ;;
+          4) ejecutar_iniciar ;;
+          5) protocolos ;;
+          6) echo "Saliendo de la Script" ; exit ;;
+          7) if obtener_version_desde_github; then actualizar_script; else nodis_version; fi ;;
+          0) echo "Saliendo de la Script" ; salir=true ;;
+          *) opcion_invalida ;;
 
+      esac
+     done
 }
 
 actualizar_script() {

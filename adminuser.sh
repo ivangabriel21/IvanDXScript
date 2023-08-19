@@ -8,6 +8,7 @@ AZUL="\e[34m"
 MAGENTA="\e[35m"
 CYAN="\e[36m"
 BLANCO="\e[37m"
+GRIS="\e[90m"
 
 # Colores de fondo
 FONDO_NEGRO="\e[40m"
@@ -29,7 +30,7 @@ RESTAURAR="\e[0m"
 
 clear && clear
 total_usuarios=$(awk -F: '($3 >= 1000) {print}' /etc/passwd | wc -l)
-
+cat /etc/ivandx/calls
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 echo -e "USER: ${total_usuarios}"
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
@@ -84,16 +85,27 @@ function read_create() {
   bash /etc/ivandx/adminuser.sh
 }
 
+opcion_invalida() {
+ echo -e "Opcion Invalida \c"
+ echo ""
+ sleep 0,999s
+ clear
+ bash /etc/ivandx/adminuser.sh
+}
+
 while true; do 
-    echo "▶1 Crear Nuevo Usuario SSH"
-    echo "▶2 Eliminar Usuario SSH"
-    echo "▶3 Mostrar Usuarios Creados"
-    echo "▶4 Mostrar Usuarios Conectados"
-    echo "▶5 Agregar Banner Dropbear"
-    echo "▶6 Regresar"
+    echo -e "🔐 ${CYAN}Opciones de Usuarios SSH${RESTAURAR} 🔐"
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    echo -e "${GRIS}[1]${RESTAURAR} ▶${AMARILLO} CREAR NUEVO USUARIO SSH${RESTAURAR}"
+    echo -e "${GRIS}[2]${RESTAURAR} ▶${VERDE} ELIMINAR USUARIO SSH${RESTAURAR}"
+    echo -e "${GRIS}[3]${RESTAURAR} ▶${CYAN} MOSTRAR USUARIOS CREADOS${RESTAURAR}"
+    echo -e "${GRIS}[4]${RESTAURAR} ▶ ${FONDO_VERDE}MOSTRAR USUARIOS CONECTADOS${RESTAURAR}"
+    echo -e "${GRIS}[5]${RESTAURAR} ▶ ${FONDO_AMARILLO}AGREGAR BANNER DROPBEAR${RESTAURAR}"
+    echo -e "${GRIS}[6]${RESTAURAR} ▶ ${ROJO}REGRESAR${RESTAURAR}"
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 
-
-    read -p "Selecciona una opción: " opcion
+    echo -e "${AMARILLO}Selecciona una opción:${RESTAURAR} \c"
+    read opcion
 
 
   case $opcion in 
@@ -102,7 +114,9 @@ while true; do
       3) read_create ;;
       4) read_connect ;;
       5) banner_vps ;;
-      6) echo "Regresando al menu Principal" ; bash /etc/ivandx/ivandx.sh ;;
+      6) return ;;
+      0) return ;;
+      *) opcion_invalida ;;
 
   esac
 
