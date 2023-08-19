@@ -141,4 +141,7 @@ echo -e "${VERDE} INSTALANDO EL NOMBRE ACSII PARA LA SCRIPT${RESTAURAR}"
 echo ""
 pip install pyfiglet
 python3 /etc/ivandx/ascii.py
+${RESTAURAR}
 mv /etc/ivandx/motd /etc/motd
+clear && clear
+cat /etc/motd

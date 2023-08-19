@@ -16,10 +16,10 @@ COLORES = {
 RESTAURAR = "\033[0m"
 
 # Pide al usuario que ingrese el nombre y el texto
-texto = input(f'{COLORES["verde"]}Ingresa el texto para generar arte ASCII:{RESTAURAR} ')
+texto = input(f'{COLORES["verde"]}INGRESE EL NOMBRE DEL SERVIDOR:{RESTAURAR} ')
 
 # Pide al usuario que elija un color
-print("Elige un color para el texto:")
+print("ELIGE UN COLOR DEL NOMBRE:")
 for color in COLORES.keys():
     print(color)
 color_elegido = input("Color: ").lower()
