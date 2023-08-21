@@ -35,7 +35,7 @@ badvpn() {
   source /etc/ivandx/badvpn/badvpn.sh
 }
 # los $
-badstatus=
+badstatus="badvpn status"
 # Aqui El Texto Del Menu
 clear && clear
 cat /etc/ivandx/calls
