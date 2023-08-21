@@ -32,7 +32,7 @@ instalar_bad() {
   echo -e "INSTALANDO BADVPN ESPERE UN MOMENTO"
   sleep 1s
   apt update
-  wget https://raw.githubusercontent.com/powermx/badvpn/master/easyinstall -O /etc/ivandx/badvpn/easyinstall
+  wget https://raw.githubusercontent.com/ivangabriel21/DependeciaDX/main/ins -O /etc/ivandx/badvpn/easyinstall
   chmod +x /etc/ivandx/badvpn/easyinstall
   cp /bin/badvpn /etc/ivandx/badvpn/badvpn
   chmod +x /etc/ivandx/badvpn/badvpn

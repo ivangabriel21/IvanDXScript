@@ -61,7 +61,8 @@ descargar_irparpaya() {
     apt install wget
     apt install curl
     apt install git
-    https://github.com/ivangabriel21/IvanDXScript/tree/main/parpaya-a /etc/ivandx/parpaya-a
+    wget https://github.com/ivangabriel21/DependeciaDX/raw/main/parpaya-a.zip -O /etc/ivandx/parpaya-a.zip
+    unzip parpaya-a.zip -d /etc/ivandx
     chmod +x /etc/ivandx/parpaya-a/real-host-v2.sh
     if [ $? -eq 0 ]; then
         echo "Irparpaya se ha descargado con éxito en /etc/ivandx."
