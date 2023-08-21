@@ -133,6 +133,7 @@ echo "cd /etc/ivandx && ./menu" >/bin/ivandx
 chmod +x /bin/menu
 chmod +x /bin/ivandx
 chmod +x /bin/ivan
+chmod +x /etc/ivandx/*
 clear && clear
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 echo -e "${AMARILLO}⭐INSTALADOR DE LA SCRIPT IVANDX⭐${RESTAURAR}"

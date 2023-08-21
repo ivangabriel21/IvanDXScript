@@ -39,28 +39,6 @@ verif_ptrs() {
     done
  }
 
-
-clear && clear 
-ifconfig=$(curl -s ifconfig.me) 
-so=$(uname -s) fecha=$(date "+%d-%m-%Y %H:%M:%S") 
-total_ram=$(free -m | grep -i "mem:" | awk '{print $2}') 
-libre_ram=$(free -m | grep -i "mem:" | awk '{print $7}')
-usada_ram=$(free -m | grep -i "mem:" | awk '{print $3}') 
-uso_ram=$(free | awk 'NR==2{printf "%.2f", $3/$2*100}') 
-uso_cpu=$(top -bn1 | grep "Cpu(s)" | awk '{print 100-$8}')
-cache_usada=$(free -m | grep -i "mem:" | awk '{print $6}')
-cat /etc/ivandx/calls
-echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
-echo -e "${AZUL}▶ IP:${RESTAURAR}${CYAN} $ifconfig${RESTAURAR} ${AMARILLO}S.O: $so FECHA: $fecha${RESTAURAR}" 
-echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
-verif_ptrs
-echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
-echo -e "${AMARILLO}⭐IVANDX${RESTAURAR}${AMARILLO}⭐ ${RESTAURAR}${VERDE}ESTAS EN LA VERSION :${RESTAURAR} 1.0 " 
-echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
-echo -e "\e[33m▶ TOTAL: $total_ramM ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada_ram" 
-echo -e "▶ Uso RAM: ${uso_ram}% ▶ Uso CPU: ${uso_cpu}% Cache: ${cache_usada}M" 
-echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
-
 # Aqui estan las Redirecciones Bash del menu
 function administrar_usuarios() {
     echo "Ejecutando el script de administración de usuarios..."
@@ -72,6 +50,10 @@ function herramientas() {
     source /etc/ivandx/herramientas.sh
 }
 
+protocolos() {
+    echo -e "Ejecutando El Script Protocolos ..."
+    source /etc/ivandx/protocolos.sh
+}
 # Esta es la funcion de borrar el Script
 function borrar_script() {
     read -p "¿Estás seguro de remover el script? (y/n): " confirmacion
@@ -90,7 +72,7 @@ function borrar_script() {
     fi
 }
 
-function opcion_invalida() { 
+function opcion_invalida() {
   echo "Opción inválida, por favor selecciona una opción válida."
 }
 
@@ -132,6 +114,27 @@ nodis_version() {
   read enter
   menu
 }
+
+clear && clear 
+ifconfig=$(curl -s ifconfig.me) 
+so=$(uname -s) fecha=$(date "+%d-%m-%Y %H:%M:%S") 
+total_ram=$(free -m | grep -i "mem:" | awk '{print $2}') 
+libre_ram=$(free -m | grep -i "mem:" | awk '{print $7}')
+usada_ram=$(free -m | grep -i "mem:" | awk '{print $3}') 
+uso_ram=$(free | awk 'NR==2{printf "%.2f", $3/$2*100}') 
+uso_cpu=$(top -bn1 | grep "Cpu(s)" | awk '{print 100-$8}')
+cache_usada=$(free -m | grep -i "mem:" | awk '{print $6}')
+cat /etc/ivandx/calls
+echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
+echo -e "${AZUL}▶ IP:${RESTAURAR}${CYAN} $ifconfig${RESTAURAR} ${AMARILLO}S.O: $so FECHA: $fecha${RESTAURAR}" 
+echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
+verif_ptrs
+echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+echo -e "${AMARILLO}⭐IVANDX${RESTAURAR}${AMARILLO}⭐ ${RESTAURAR}${VERDE}ESTAS EN LA VERSION :${RESTAURAR} 1.0 " 
+echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
+echo -e "\e[33m▶ TOTAL: $total_ramM ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada_ram" 
+echo -e "▶ Uso RAM: ${uso_ram}% ▶ Uso CPU: ${uso_cpu}% Cache: ${cache_usada}M" 
+echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
 
 mostrar_menu() {
    local salir=false
