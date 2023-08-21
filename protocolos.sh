@@ -34,6 +34,11 @@ badvpn() {
   clear && clear
   source /etc/ivandx/badvpn/badvpn.sh
 }
+
+squidproxy() {
+ clear && clear
+ source /etc/ivandx/squidp/squid.sh
+}
 # los $
 badstatus="badvpn status"
 # Aqui El Texto Del Menu
