@@ -40,6 +40,11 @@ squidproxy() {
  source /etc/ivandx/squidp/squid.sh
 }
 
+dropbear() {
+ clear && clear
+ source /etc/ivandx/dropbear/dropbear.sh
+}
+
 verificar_estado_squid() {
     if sudo systemctl is-active --quiet squid; then
         squidstatus="ON"
@@ -48,14 +53,21 @@ verificar_estado_squid() {
     fi
 }
 
-verificar_estado_badvpn() {
-    if sudo systemctl is-active --quiet badvpn; then
+verificar_dropbear() {
+    if sudo service dropbear status | grep -q "Active: active (exited)"; then
+        dropstatus="ON"
+    else
+        dropstatus="OFF"
+    fi
+}
+
+verificar_badvpn() {
+    if dir /bin/badvpn | grep -q "/bin/badvpn"; then
         badstatus="ON"
     else
         badstatus="OFF"
     fi
 }
-
 # Aqui El Texto Del Menu
 clear && clear
 cat /etc/ivandx/calls
@@ -63,14 +75,15 @@ echo -e "${VERDE}•••••••••••••••••••••
 echo -e "${AZUL}▶ IP:${RESTAURAR}${CYAN} $ifconfig${RESTAURAR} ${AMARILLO}S.O: $so FECHA: $fecha${RESTAURAR}"
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 verificar_estado_squid
-verificar_estado_badvpn
+verificar_dropbear
+verificar_badvpn
 
 while true; do
     echo -e "${CYAN}INSTALADOR DE PROTOCOLOS${RESTAURAR}"
     echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
     echo -e "${GRIS}[1]${RESTAURAR} ▶ ${AMARILLO}BADVPN [$badstatus]${RESTAURAR}"
     echo -e "${GRIS}[2]${RESTAURAR} ▶ ${AMARILLO}PROXY SQUID [$squidstatus]${RESTAURAR}"
-    echo -e "${GRIS}[3]${RESTAURAR} ▶ ${AMARILLO}DropBear [${dropstatus}]${RESTAURAR}"
+    echo -e "${GRIS}[3]${RESTAURAR} ▶ ${AMARILLO}DropBear [$dropstatus]${RESTAURAR}"
     echo -e "${GRIS}[4]${RESTAURAR} ▶ ${AMARILLO}PROXY PYTHON [${pystatus}]${RESTAURAR}"
     echo -e "${GRIS}[5]${RESTAURAR} ▶ ${AMARILLO}SSL [${sslstatus}]${RESTAURAR}"
     echo -e "${GRIS}[0]${RESTAURAR} ▶ ${ROJO}REGRESAR${RESTAURAR}"
