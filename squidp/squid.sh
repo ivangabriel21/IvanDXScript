@@ -40,44 +40,72 @@ instalar_Squid() {
         echo "Squid Proxy ya está instalado."
         sleep 2s
         clear && clear
+        source /etc/ivandx/squidp/squid.sh
+        return
     fi
 
-    # Configurar los puertos de Squid
-
     echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
-    echo -e "${AMARILLO}⭐INSTALANDO PROXY SQUID ⭐${RESTAURAR}"
+    echo -e "${AMARILLO}⭐ACTUALIZADOR DE LA SCRIPT IVANDX⭐${RESTAURAR}"
     echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
     echo ""
     echo -e "Ingrese los puertos para Squid (por defecto 3128): \c" 
-    read puertos
-    puertos=${puertos:-3128}
+    read -a puertos_array  # Leer los puertos como un array
 
-    # Crear una configuración personalizada para Squid
-    echo "http_port $puertos" | sudo tee /etc/squid/squid.conf
+    # Verificar si los puertos están en uso
+    puerto_en_uso=false
+    for puerto in "${puertos_array[@]}"; do
+        sudo netstat -tuln | grep ":$puerto " &> /dev/null
+        if [ $? -eq 0 ]; then
+            echo "El puerto $puerto está en uso. Intenta con otro puerto."
+            puerto_en_uso=true
+            sleep 2s
+        fi
+    done
 
-    # Habilitar la autenticación básica en Squid
-    sudo sed -i 's/#auth_param/auth_param/' /etc/squid/squid.conf
-    sudo sed -i 's/#acl auth_users/acl auth_users proxy_auth REQUIRED/' /etc/squid/squid.conf
-    sudo sed -i 's/#http_access allow auth_users/http_access allow auth_users/' /etc/squid/squid.conf
+    if [ "$puerto_en_uso" = true ]; then
+        echo "No se pudo instalar Squid debido a conflictos de puerto."
+        sleep 2s
+    else
+        # Crear una configuración personalizada para Squid
+        for puerto in "${puertos_array[@]}"; do
+            echo "http_port $puerto" | sudo tee -a /etc/squid/squid.conf
+        done
 
-    # Reiniciar Squid para aplicar cambios
-    sudo service squid restart
+        # Habilitar la autenticación básica en Squid
+        sudo sed -i 's/#auth_param/auth_param/' /etc/squid/squid.conf
+        sudo sed -i 's/#acl auth_users/acl auth_users proxy_auth REQUIRED/' /etc/squid/squid.conf
+        sudo sed -i 's/#http_access allow auth_users/http_access allow auth_users/' /etc/squid/squid.conf
 
-    echo "Squid Proxy se ha instalado y configurado en el puerto $puertos con autenticación."
+        # Reiniciar Squid para aplicar cambios
+        sudo service squid restart
+
+        echo "Squid Proxy se ha instalado y configurado en los puertos: ${puertos_array[*]} con autenticación."
+    fi
+
     clear && clear
     source /etc/ivandx/squidp/squid.sh
 }
 
+# Función para crear un usuario Squid Proxy
 crear_usuario_squid() {
     read -p "Ingrese el nombre de usuario: " usuario
-    read -sp "Ingrese la contraseña para el usuario: " contraseña
+    read -sp "Ingrese la contraseña para el usuario: " pass
     echo
-    echo "$usuario:$contraseña" | sudo tee -a /etc/squid/passwd
-    sudo service squid reload
+    echo "$usuario:$pass" | sudo tee -a /etc/squid/passwd
+
+    # Verificar si Squid está activo
+    if sudo systemctl is-active --quiet squid; then
+        # Recargar Squid para aplicar cambios si está activo
+        sudo service squid reload
+    else
+        # Si Squid no está activo, iniciar el servicio
+        echo -e "Proxy Squid No Esta Activado Para Crear el Usuario"
+        sleep 2s
+        clear && clear
+        source /etc/ivandx/squidp/squid.sh
+    fi
+
     echo "Usuario $usuario creado y configurado para autenticación en Squid."
-    sleep 2s
-    clear
-    source /etc/ivandx/squidp/squid.sh
 }
 
 # Función para eliminar un usuario Squid Proxy
@@ -151,6 +179,6 @@ while true; do
       0) menu ;;
       *) opcion_invalida ;;
 
-  esac
+    esac
 
-done
+  done
