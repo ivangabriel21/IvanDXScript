@@ -132,7 +132,7 @@ verif_ptrs
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 echo -e "${AMARILLO}⭐IVANDX${RESTAURAR}${AMARILLO}⭐ ${RESTAURAR}${VERDE}ESTAS EN LA VERSION :${RESTAURAR} 1.0 " 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
-echo -e "\e[33m▶ TOTAL: $total_ramM ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada_ram" 
+echo -e "\e[33m▶ TOTAL: ${total_ram}M ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada_ram" 
 echo -e "▶ Uso RAM: ${uso_ram}% ▶ Uso CPU: ${uso_cpu}% Cache: ${cache_usada}M" 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
 
@@ -163,8 +163,7 @@ mostrar_menu() {
           4) ejecutar_iniciar ;;
           5) protocolos ;;
           6) if obtener_version_desde_github; then actualizar_script; else nodis_version; fi ;;
-          0)clear
-          exit 0;;
+          0) exit 0 ; exit 0 ;;
           *) opcion_invalida ;;
 
       esac

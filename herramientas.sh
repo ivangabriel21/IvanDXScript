@@ -56,17 +56,17 @@ ejecutar_script_irparpaya() {
 
 descargar_irparpaya() {
     echo "Descargando Irparpaya..."
-    apt update
-    apt install nmap
-    apt install wget
-    apt install curl
-    apt install git
-    wget https://github.com/ivangabriel21/DependeciaDX/raw/main/parpaya-a.zip -O /etc/ivandx/parpaya-a.zip
+    apt update > /dev/null 2>&1
+    apt install nmap -y
+    apt install wget -y
+    apt install curl -y
+    apt install git -y
+    wget https://github.com/ivangabriel21/DependeciaDX/raw/main/parpaya-a.zip -O /etc/ivandx/parpaya-a.zip > /dev/null 2>&1
     unzip parpaya-a.zip -d /etc/ivandx
     chmod +x /etc/ivandx/parpaya-a/real-host-v2.sh
     if [ $? -eq 0 ]; then
         echo "Irparpaya se ha descargado con éxito en /etc/ivandx."
-        echo -e "PRESIONA ENTER PARA CONTINUAR \c"
+        echo -e "${VERDE}PRESIONA ENTER PARA CONTINUAR${RESTAURAR} \c"
         read enter
         ejecutar_script_irparpaya
     else
@@ -109,6 +109,11 @@ fix_root() {
    fi
 }
 
+salir() {
+  menu
+  exit 0
+}
+
 clear && clear
 cat /etc/ivandx/calls
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
@@ -129,7 +134,7 @@ while true; do
           1) ascii ;;
           2) verificar_irparpaya ;;
           3) fix_root ;;
-          0) menu ;;
+          0) salir ;;
           *) opcion_invalida ;;
 
       esac

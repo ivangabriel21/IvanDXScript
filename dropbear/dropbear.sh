@@ -29,7 +29,7 @@ COLORES=("\e[31m" "\e[32m" "\e[33m" "\e[34m" "\e[35m" "\e[36m" "\e[37m")
 instalar_dropbear() {
     clear
     echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
-    echo -e "${AMARILLO} INSTALANDO DROPBEAR /\${RESTAURAR}"
+    echo -e "${AMARILLO} INSTALANDO DROPBEAR ${RESTAURAR}"
     echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
     echo ""
     echo "Instalando Dropbear SSH..."
@@ -38,8 +38,8 @@ instalar_dropbear() {
     puerto=${puerto:-442}  # Utiliza 22 por defecto si no se especifica otro puerto
 
     # Instalar Dropbear SSH
-    sudo apt-get update
-    sudo apt-get install dropbear
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install dropbear -y
     # Configurar el puerto en /etc/default/dropbear
     sudo sed -i "s/DROPBEAR_PORT=22/DROPBEAR_PORT=$puerto/" /etc/default/dropbear
 

@@ -93,6 +93,11 @@ opcion_invalida() {
  bash /etc/ivandx/adminuser.sh
 }
 
+salir() {
+  menu
+  exit 0
+}
+
 while true; do 
     echo -e "🔐 ${CYAN}Opciones de Usuarios SSH${RESTAURAR} 🔐"
     echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
@@ -101,7 +106,7 @@ while true; do
     echo -e "${GRIS}[3]${RESTAURAR} ▶${CYAN} MOSTRAR USUARIOS CREADOS${RESTAURAR}"
     echo -e "${GRIS}[4]${RESTAURAR} ▶ ${FONDO_VERDE}MOSTRAR USUARIOS CONECTADOS${RESTAURAR}"
     echo -e "${GRIS}[5]${RESTAURAR} ▶ ${FONDO_AMARILLO}AGREGAR BANNER DROPBEAR${RESTAURAR}"
-    echo -e "${GRIS}[6]${RESTAURAR} ▶ ${ROJO}REGRESAR${RESTAURAR}"
+    echo -e "${GRIS}[0]${RESTAURAR} ▶ ${ROJO}REGRESAR${RESTAURAR}"
     echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 
     echo -e "${AMARILLO}Selecciona una opción:${RESTAURAR} \c"
@@ -114,8 +119,7 @@ while true; do
       3) read_create ;;
       4) read_connect ;;
       5) banner_vps ;;
-      6) menu ;;
-      0) menu ;;
+      0) salir ;;
       *) opcion_invalida ;;
 
   esac

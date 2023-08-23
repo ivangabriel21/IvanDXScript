@@ -68,6 +68,12 @@ verificar_badvpn() {
         badstatus="OFF"
     fi
 }
+
+salir() {
+  menu
+  exit 0
+}
+
 # Aqui El Texto Del Menu
 clear && clear
 cat /etc/ivandx/calls
@@ -76,7 +82,6 @@ echo -e "${AZUL}▶ IP:${RESTAURAR}${CYAN} $ifconfig${RESTAURAR} ${AMARILLO}S.O:
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 verificar_estado_squid
 verificar_dropbear
-verificar_badvpn
 
 while true; do
     echo -e "${CYAN}INSTALADOR DE PROTOCOLOS${RESTAURAR}"
@@ -99,7 +104,7 @@ while true; do
       3) dropbear ;;
       4) pyproxy ;;
       5) ssl ;;
-      0) menu ;;
+      0) salir ;;
       *) opcion_invalida ;;
 
   esac
