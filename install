@@ -31,6 +31,7 @@ COLORES=("\e[31m" "\e[32m" "\e[33m" "\e[34m" "\e[35m" "\e[36m" "\e[37m")
 RESTAURAR="\e[0m"
 
 apt update
+rm -rf install
 ifconfig=$(curl -s ifconfig.me)
 verificar_root() {
   if [ $(whoami) != 'root' ]; then
@@ -133,14 +134,15 @@ chmod +x /bin/menu
 chmod +x /bin/ivandx
 chmod +x /bin/ivan
 chmod +x /etc/ivandx/*
+pip install pyfiglet
+echo ""
 clear && clear
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 echo -e "${AMARILLO}⭐INSTALADOR DE LA SCRIPT IVANDX⭐${RESTAURAR}"
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
 echo -e "${VERDE} INSTALANDO EL NOMBRE ACSII PARA LA SCRIPT${RESTAURAR}"
 echo ""
-pip install pyfiglet >/dev/null 2>&1
-python3 /etc/ivandx/ascii.py >/dev/null
+python3 /etc/ivandx/ascii.py
 ${RESTAURAR}
 mv /etc/ivandx/motd /etc/motd
 clear && clear
