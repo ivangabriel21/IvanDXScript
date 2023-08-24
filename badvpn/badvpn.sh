@@ -28,13 +28,22 @@ SUBRAYADO="\e[4m"
 INVERTIDO="\e[7m"
 COLORES=("\e[31m" "\e[32m" "\e[33m" "\e[34m" "\e[35m" "\e[36m" "\e[37m")
 
+salir() {
+  menu
+  exit 0
+}
+
 instalar_badvpn() {
 echo "#!/bin/bash
 if [ "'$1'" == uninstall ]
 then
 echo 'Desinstalando badvpn'
 rm /bin/badvpn && rm /bin/badvpn-udpgw
-echo 'Desinstalacion completa'
+rm -rf /etc/ivandx/badvpn/badvpn
+echo -e "BADVPN DESINSTALADO CORRECTAMENTE"
+sleep 2s
+clear
+salir
 fi
 if [ "'$1'" == start ]
 then
@@ -56,7 +65,8 @@ chmod +x /bin/badvpn
 if [ -f /bin/badvpn-udpgw ]; then
 echo -e "\033[1;32mBadvpn ya esta instalado\033[0m"
 rm -rf easyinstall >/dev/null 2>/dev/null
-exit
+sleep 2s
+source /etc/ivandx/badvpn/badvpn.sh
 else
 clear
 fi
@@ -92,6 +102,16 @@ desactivar_badvpn() {
   source /etc/ivandx/badvpn/badvpn.sh
 }
 
+desinstalar_badvpn() {
+  echo "DESINSTALANDO BADVPN"
+  rm -rf /bin/badvpn-udpgw
+  rm -rf /etc/ivandx/badvpn/badvpn
+  echo -e "BADVPN DESINSTALADO CORRECTAMENTE"
+  sleep 2s
+  clear
+  salir
+}
+
 puerto1=7300
 puerto2=7200
 
@@ -120,7 +140,7 @@ while true; do
       2) activar_badvpn ;;
       3) desactivar_badvpn ;;
       4) desinstalar_badvpn ;;
-      0) menu ;;
+      0) salir ;;
       *) opcion_invalida ;;
 
   esac

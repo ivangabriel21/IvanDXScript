@@ -33,11 +33,27 @@ RESTAURAR="\e[0m"
 
 verif_ptrs() {
     PT=$(lsof -V -i tcp -P -n | grep -v "ESTABLISHED" | grep -v "COMMAND" | grep "LISTEN")
+    port_count=0
+    ports=""
+
     for pton in $(echo -e "$PT" | cut -d: -f2 | cut -d' ' -f1 | uniq); do
         svcs=$(echo -e "$PT" | grep -w "$pton" | awk '{print $1}' | uniq)
-        echo -e "${CYAN}$svcs${RESTAURAR}: ${AMARILLO}$pton${RESTAURAR}"
+        ports="${ports}${CYAN}${svcs}${RESTAURAR}: ${AMARILLO}${pton}${RESTAURAR}\t"
+
+        ((port_count++))
+
+        # Mostrar dos puertos por línea
+        if [ $((port_count % 2)) -eq 0 ]; then
+            echo -e "$ports"
+            ports=""
+        fi
     done
- }
+
+    # Mostrar el último puerto si no se ha mostrado ya
+    if [ -n "$ports" ]; then
+        echo -e "$ports"
+    fi
+}
 
 # Aqui estan las Redirecciones Bash del menu
 function administrar_usuarios() {
@@ -129,9 +145,9 @@ echo -e "${VERDE}•••••••••••••••••••••
 echo -e "${AZUL}▶ IP:${RESTAURAR}${CYAN} $ifconfig${RESTAURAR} ${AMARILLO}S.O: $so FECHA: $fecha${RESTAURAR}" 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
 verif_ptrs
-echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+echo -e "${VERDE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESTAURAR}"
 echo -e "${AMARILLO}⭐IVANDX${RESTAURAR}${AMARILLO}⭐ ${RESTAURAR}${VERDE}ESTAS EN LA VERSION :${RESTAURAR} 1.0 " 
-echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
+echo -e "${VERDE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESTAURAR}" 
 echo -e "\e[33m▶ TOTAL: ${total_ram}M ▶ LIBRE: ${libre_ram}M ▶ USADA: $usada_ram" 
 echo -e "▶ Uso RAM: ${uso_ram}% ▶ Uso CPU: ${uso_cpu}% Cache: ${cache_usada}M" 
 echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}" 
@@ -163,7 +179,7 @@ mostrar_menu() {
           4) ejecutar_iniciar ;;
           5) protocolos ;;
           6) if obtener_version_desde_github; then actualizar_script; else nodis_version; fi ;;
-          0) exit 0 ; exit 0 ;;
+          0) exit 0 ;;
           *) opcion_invalida ;;
 
       esac

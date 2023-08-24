@@ -45,6 +45,74 @@ dropbear() {
  source /etc/ivandx/dropbear/dropbear.sh
 }
 
+function verificarSSL() {
+    if [ -e /etc/ssl/certs/server.crt ] && [ -e /etc/ssl/private/server.key ]; then
+        clear && clear
+        source /etc/ivandx/ssl/ssl.sh
+    else
+        clear && clear
+        echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+        echo -e "${AMARILLO}⭐Instalando Y Configurando SSL, En Curso⭐${RESTAURAR}"
+        echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+        echo ""
+        echo "SSL no está instalado."
+        read -p "¿Deseas instalar SSL? (y/n): " respuesta
+        if [ "$respuesta" == "y" ] || [ "$respuesta" == "y" ]; then
+            instalarSSL
+        else
+            echo "No se ha instalado SSL. Regresando Al Menu ..."
+            sleep 1s
+            clear && clear 
+            source /etc/ivandx/protocolos.sh
+        fi
+    fi
+}
+
+#!/bin/bash
+
+function instalarSSL() {
+    # Instalar paquetes necesario 
+    clear && clear
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    echo -e "${AMARILLO}⭐ Instalador y Configurador de SSL ⭐${RESTAURAR}"
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    echo ""
+    apt-get update -y
+    apt-get install -y openssl
+    echo -e "Los Paquetes Se Instalaron Correctamente ✅"
+    sleep 1s
+
+    # Solicitar al usuario que ingrese el dominio SSL
+    clear && clear
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    echo -e "${AMARILLO}⭐ Instalador y Configurador de SSL ⭐${RESTAURAR}"
+    echo -e "${VERDE}•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••${RESTAURAR}"
+    echo ""
+    read -p "Introduce tu dominio SSL (ejemplo.com): " dominio
+    echo ""
+
+    # Generar una clave privada y un certificado autofirmado
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/server.key -out /etc/ssl/certs/server.crt -subj "/CN=$dominio"
+
+    # Descargar la configuración de Nginx desde GitHub (reemplaza 'URL_DE_GITHUB_SSL' con la URL real)
+    wget -O /etc/nginx/sites-available/default "URL_DE_GITHUB_SSL"
+    curl -L -o /etc/nginx/sites-available/default -k "https://dl.dropboxusercontent.com/scl/fi/wax2io6fewamd6t6lpqzf/default?rlkey=jmv7h8co3sqn4qnj3p6g5a17d&dl=0"
+
+    # Cambiar el nombre del dominio en la configuración
+    sed -i "s/server_name dominio/server_name $dominio/g" /etc/nginx/sites-available/default
+
+    # Habilitar el sitio SSL en Nginx
+    ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+
+    # Reiniciar Nginx para aplicar la configuración
+    systemctl restart nginx
+
+    echo "SSL instalado y configurado correctamente para el dominio $dominio."
+    sleep 2s
+    clear && clear
+    source /etc/ivandx/ssl/ssl.sh
+}
+
 verificar_estado_squid() {
     if sudo systemctl is-active --quiet squid; then
         squidstatus="ON"
@@ -103,7 +171,7 @@ while true; do
       2) squidproxy ;;
       3) dropbear ;;
       4) pyproxy ;;
-      5) ssl ;;
+      5) verificarSSL ;;
       0) salir ;;
       *) opcion_invalida ;;
 
